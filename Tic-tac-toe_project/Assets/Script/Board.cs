@@ -34,8 +34,8 @@ public class Board : MonoBehaviour
         PlayerSide = "X";
         Panel.SetActive(false);
         NumberOfMoves = 0;
-        restartButton.SetActive(false);
-        SetPlayerColors(playerX, player〇);
+        //restartButton.SetActive(false);
+        //SetPlayerColors(playerX, player〇);
     }
     //
     private void SetGameControllerReferenceOnButton()
@@ -54,24 +54,25 @@ public class Board : MonoBehaviour
     //3つ並んでいたら終了
     public void TurnEnd()
     {
+        NumberOfMoves++;
         if(//横軸のチェック
             (ButtonList[0].text == PlayerSide && ButtonList[1].text == PlayerSide && ButtonList[2].text == PlayerSide)||
             (ButtonList[3].text == PlayerSide && ButtonList[4].text == PlayerSide && ButtonList[5].text == PlayerSide)||
             (ButtonList[6].text == PlayerSide && ButtonList[7].text == PlayerSide && ButtonList[8].text == PlayerSide)
-            ){ GameOver(PlayerSide);return; }
+            ){ GameOver();return; }
         if(//縦軸のチェック
             (ButtonList[0].text == PlayerSide && ButtonList[3].text == PlayerSide && ButtonList[6].text == PlayerSide) ||
             (ButtonList[1].text == PlayerSide && ButtonList[4].text == PlayerSide && ButtonList[7].text == PlayerSide) ||
             (ButtonList[2].text == PlayerSide && ButtonList[5].text == PlayerSide && ButtonList[8].text == PlayerSide)
-            ){ GameOver(PlayerSide); return; }
+            ){ GameOver(); return; }
         if (//斜め軸のチェック
             (ButtonList[0].text == PlayerSide && ButtonList[4].text == PlayerSide && ButtonList[8].text == PlayerSide) ||
             (ButtonList[2].text == PlayerSide && ButtonList[4].text == PlayerSide && ButtonList[6].text == PlayerSide)
-            ) { GameOver(PlayerSide); return; }
+            ) { GameOver(); return; }
         //揃っていない
         if(NumberOfMoves == 9)
         {
-            GameOver(null);//引き分け
+            SetGameOverText("引き分け");//引き分け
         }
         else//ターンチェンジ
         {
@@ -82,6 +83,7 @@ public class Board : MonoBehaviour
     private void ChangeSides()
     {
         PlayerSide = (PlayerSide == "X") ? "〇" : "X";
+        /*
         if(PlayerSide == "X")
         {
             SetPlayerColors(playerX, player〇);
@@ -89,8 +91,17 @@ public class Board : MonoBehaviour
         else
         {
             SetPlayerColors(player〇, playerX);
-        }
+        }*/
     }
+    private void GameOver()
+    {
+        for (int i = 0; i < ButtonList.Length; i++)
+        {
+            ButtonList[i].GetComponentInParent<Button>().interactable = false;
+        }
+        SetGameOverText(PlayerSide + "の勝ち");
+    }
+    /*
     //ターンプレイヤーと非ターンプレイヤーで色を変える
     private void SetPlayerColors(Player newPlayer,Player oldPlayer)
     {
@@ -105,15 +116,15 @@ public class Board : MonoBehaviour
         SetBoardInteractable(false);
         if (Winner == null) SetGameOverText("引き分け");
         else SetGameOverText(Winner + "の勝ち");
-        restartButton.SetActive(true);
-    }
+        //restartButton.SetActive(true);
+    }*/
     //ゲームオーバー時のテキスト
     private void SetGameOverText(string value)
     {
         Panel.SetActive(true);
         WinText.text = value;
     }
-    //
+    /*
     private void SetBoardInteractable(bool toggle)
     {
         for(int i = 0; i < ButtonList.Length; i++)
@@ -134,5 +145,5 @@ public class Board : MonoBehaviour
         {
             ButtonList[i].text = "";
         }
-    }
+    }*/
 }
