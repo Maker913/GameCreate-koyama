@@ -22,6 +22,7 @@ public class CPU : MonoBehaviour
     public GameObject restartButton;
     public GameObject TitleButton;
     private Button button;
+    private bool flg;
     private int NumberOfMoves;
     private string PlayerSide;
     private void Awake()
@@ -86,9 +87,25 @@ public class CPU : MonoBehaviour
     }
     private void CPUSet()
     {
-        if(ButtonList[4] = null)
+        flg = false;
+        if(flg = false||ButtonList[4].GetComponentInParent<Button>().interactable == true)
         {
+            ButtonList[4].text = "〇";
+            ButtonList[4].GetComponentInParent<Button>().interactable = false;
         }
+        else
+        {
+            int b = 0;
+            do
+            {
+                b = Random.Range(0, 8);
+            }
+            while (ButtonList[b].GetComponentInParent<Button>().interactable == true);
+            Debug.Log(b);
+            ButtonList[b].text = "〇";
+            ButtonList[b].GetComponentInParent<Button>().interactable = false;
+        }
+        flg = true;
         TurnEnd();
     }
     //ゲームオーバー時の勝敗判定
@@ -135,3 +152,4 @@ public class CPU : MonoBehaviour
         SceneManager.LoadScene("Title");
     }
 }
+
